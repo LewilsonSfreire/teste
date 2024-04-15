@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: projeto-service  #nome do serviço
+spec:
+  selector:
+    app: site-projeto
+  type: NodePort
+  ports:
+  - nodePort: 30000
+    port: 8080

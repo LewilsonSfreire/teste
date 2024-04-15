@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vol-prometheus #nome do pode
+spec:
+  accessModes:
+    - ReadWriteMany # ReadWriteMany, ReadWriteOnce, ReadOnlyMany, or ReadWriteOncePod,
+  storageClassName: prometheus
+  resources:
+    requests:
+      storage: 500Mi

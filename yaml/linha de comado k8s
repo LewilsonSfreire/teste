@@ -1,0 +1,61 @@
+k run teste-pod --image=postgres
+
+k get po = ver pods
+k describe po  teste-pod
+k describe po  teste-pod |grep image:
+k describe po  teste-pod |grep -C 5 image:
+
+k get po --watch
+k get po -o wide
+k delete po projeto --grace-period=0 --force
+
+entrar no pod
+k exec -it teste-pod -- /bin/bash   --------- curl numerodarede para verificar se esta funcionando (acessado)
+
+
+rodado o meu micro serviço fazemos
+k run projeto --image=nomedoprojeto
+
+passo para criar o service e o pod depois do yaml está configurado.
+
+k apply -f teste-pod.yaml -cria o pod
+k get po --show-labels
+k get svc mostra os serves
+k run teste.pod --image=projeto --dry-run=client -o yaml --port=8080 teste-pod.yaml -- cria um values yaml basico
+
+k run teste.pod --image=projeto
+
+-fk get po --show-labels
+
+labels
+
+
+lembrar de pegar o IP do service do banco de dados e passar o proprities do banco de dados.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+k port-forward svc/kubernetes 8080:443
+
+alias k="minikube kubectl --"
+
+k delete -f template.yml
+k delete po projeto --grace-period=0 --force
+
+k apply -f teste-pod.yaml -cria o pod
+
+
+
+
+k describe pod nginx-deploy-5d8869dd79-f29wn
+
+k exec nginx-deploy-5d8869dd79-f29wn -- curl http://10.244.0.33:30006
+
+http://10.244.0.33:30006
+
+
+institucional-service
+
+minikube service list
+k delete -f template.yml
+
+kubectl run prometheus --image=prom/prometheus:v2.26.0 --namespace= prometheus
+
+

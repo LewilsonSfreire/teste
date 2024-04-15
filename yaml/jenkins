@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    tools{
+        maven "mvn"
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git(
+                    url: "https://github.com/LewilsonSfreire/projetoFinal.git",
+                    branch: "master"
+                script{
+                    TAG_VERSION = sh(script: 'git rev-parse --short HEAD', returnStdout:true).trim()
+                }
+                )
+            }
+        }
+
+        stage('Build') {
+             steps{
+                 sh "mvn -DskipTests clean package"
+
+             }
+         }
+
+          stage('Create Image') {
+             steps{
+                 echo "IMAGE VERSION: ${TAG_VERSION}"
+                 sh "docker build -t lewilsonfreire/projetofinal:${VERSION} --build-arg=${version_arg} ."
+             }
+
+         }
+
+         
+         stage('Push Image') {
+            steps {
+                sh "docker push lewilsonfreire/projetofinal:${VERSION}"
+            }
+         }
+    }
+}

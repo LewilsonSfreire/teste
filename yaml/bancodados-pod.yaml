@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bancodados-pod  #nome do pode
+  labels:
+    tier: database
+spec:
+  containers:
+  - image: postgres:14.11-alpine3.18 #imagem do projeto
+    name: bancodados-pod #nome do container
+    env:
+    - name: "POSTGRES_PASSWORD"
+      value: "mysecretpassword"

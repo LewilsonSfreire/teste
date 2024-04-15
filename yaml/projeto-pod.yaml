@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projeto-deploy  #nome do pode
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: site-projeto #nome do servidor
+  template:
+    metadata:
+      name: projeto-pod #nome do pode
+      labels:
+        app: site-projeto #nome do servidor
+    spec:
+      containers:
+      - image: lewilsonfreire/projetofinal:7.0
+        name: projeto-pod #nome do pode
+        ports:
+          - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /metrics/health
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 10
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /metrics/health
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 10
+          failureThreshold: 2

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service #nome do pode
+spec:
+  selector:
+    app: grafana #colocar na service
+  ports:
+    - protocol: TCP
+      port: 3000
+      nodePort: 30001
+  type: NodePort

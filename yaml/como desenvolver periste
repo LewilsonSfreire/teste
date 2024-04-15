@@ -1,0 +1,51 @@
+https://kubernetes.io/pt-br/docs/concepts/storage/persistent-volumes/
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pv-recycler
+  namespace: default
+spec:
+  restartPolicy: Never
+  volumes:
+  - name: vol
+    hostPath:
+      path: /any/path/it/will/be/replaced
+  containers:
+  - name: pv-recycler
+    image: "registry.k8s.io/busybox"
+    command: ["/bin/sh", "-c", "test -e /scrub && rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  && test -z \"$(ls -A /scrub)\" || exit 1"]
+    volumeMounts:
+    - name: vol
+      mountPath: /scrub
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: foo-pv
+spec:
+  storageClassName: ""
+  claimRef:
+    name: foo-pvc
+    namespace: foo
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: nginx
+      command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level
